@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index'); // home
 var usersRouter = require('./routes/users');
 
 var app = express();
+const sign_up = require('./routes/api/member/sign_up');
 
 // view engine setup -> template engine
 app.set('views', path.join(__dirname, 'views'));
@@ -24,14 +25,27 @@ app.use('/users', usersRouter);
 
 
 // Sign Up (input: email, email(check), pw, pw(check), phone_number, name)
-/**
- * condition
- * email: 1. 확인용과 일치여부 판단 2. @com과 같은 형식 판단 3. 데이터베이스에 동일한 email 있으면 이미 회원가입되었다고 한다.
- * pw: 1. 확인용과 일치여부 판단 2. 특수문자, 숫자, 영문자 조합 인정 각각 최소 한개씩 필수 3. 최소 6자 ~ 18자까지 인정
- * phone_number: 1. '-' 단위로 입력하도록 한다.
- * name: 한글자 3~4 있는대로 받는다. -> 추후 수정가능 
- */
 
+app.post('/API/Sign_up', (req, res) => {
+  console.log("[Call Sign up API]");
+
+  const userEmail = req.body.email;
+  const userEmailCheck = req.body.emailCheck;
+  const userPw = req.body.pw;
+  const userPwCheck = req.body.pwCheck;
+  const userPhone_number = req.body.phone_number;
+  const userName = req.body.name;
+
+  sign_up.verification(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName, (error, {}) => {
+    if(error){
+      console.log('error')
+      return res.send({error})
+    }
+    res.json({status: res.statusCode});
+  });
+
+  
+})
 
 // Log in | Sign in(input: email, pw) 
 /**
@@ -52,6 +66,8 @@ app.use('/users', usersRouter);
  * phone_number, name도 회원가입 규칙에 의거하여 수정된 것을 받는다.
  */
 
+
+// session 도입하여 삭제.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
