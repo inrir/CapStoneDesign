@@ -9,6 +9,10 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 const sign_up = require('./routes/api/member/sign_up');
+const sign_in = require('./routes/api/member/sign_in');
+const search_pw = require('./routes/api/member/search_pw');
+const edit_member = require('./routes/api/member/edit_member');
+
 
 // view engine setup -> template engine
 app.set('views', path.join(__dirname, 'views'));
@@ -48,23 +52,54 @@ app.post('/API/Sign_up', (req, res) => {
 })
 
 // Log in | Sign in(input: email, pw) 
-/**
- * database 여부 파악하고 등록해주면 된다.
- */
+
+app.post('/API/Sign_up', (req, res) => {
+  console.log("[Call Sign in API]");
+
+  // TODO database 연결해서 email, pw가 database에 담겨있는지 확인하고 있으면 있다고 보내고 없으면 없다고 보내면 된다.
+})
 
 // search PW (input: email)
-/**
- * email 받고 해당하는 임시비밀번호를 보여주고 데이터베이스도 임시비밀번호로 바꾼다. (임시비밀번호는 난수 생성프로그램으로 보여주면 될거 같다.) 
- * email로 임시비밀번호를 보내주는 것으로 하면, 단지 웹 상에서 보여주는 것보다 보안성이 크다.
- * (추가 고려)추가로 시간이 생긴다면, 이메일로 인증하는 과정을 거쳐 2번 인증하는 수단도 고려해보면 보완성이 클 것이다.
- */
 
+app.post('/API/Search_pw', (req, res) => {
+  console.log("[Call Search pw API]");
+
+  const userEmail = req.body.email; 
+
+  search_pw.search(userEmail, (error, {})=> {
+    if(error){
+      console.log('error');
+      return res.send({error})
+    }
+
+    res.json({status: res.statusCode});
+  })
+
+
+
+})
 // edit account(input: pw, phone_number, name)
-/**
- * condition
- * pw: 기존 비밀번호가 맞는지 확인하고. 2. 새로운 비밀번호는 회원가입 규칙에 의거하여 입력받는다.
- * phone_number, name도 회원가입 규칙에 의거하여 수정된 것을 받는다.
- */
+
+app.post('/API/Edit_member', (req, res) => {
+  console.log("[Call Edit member API]");
+
+  const userEmail = req.body.email; // PK로 가져와야할 거 같다고 생각이 들어서 HTML hidden 식으로 들고오면 될거 같다.
+  const old_pw = req.body.old_pw;
+  const new_pw = req.body.new_pw;
+  const new_pw_check = req.body.new_pw_check;
+  const phone_number = req.body.phone_number;
+  const name = req.body.name;
+
+  edit_member.edit(userEmail, old_pw, new_pw, new_pw_check, phone_number, name, (error, {}) => {
+    if(error){
+      console.log('error');
+      return res.send({error})
+    }
+
+    res.json({status: res.statusCode});
+  })
+
+})
 
 
 // session 도입하여 삭제.

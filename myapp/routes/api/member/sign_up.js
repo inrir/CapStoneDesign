@@ -6,19 +6,21 @@
  * phone_number: 1. 숫자만 입력하도록 한다. 2. 11자가 맞는지 확인만 한다.
  * name: 한글자 3~4 있는대로 받는다. -> 추후 수정가능 
  */
-  const userEmail = "kimms5617@naver.com";
-  const userEmailCheck = "kimms5617@naver.com";
-  const userPw = "qweasd123!";
-  const userPwCheck = "qweasd123!";
-  const userPhone_number = "01063645617"; // 문자로 받고 필요하면 변환하자.
-  const userName = "김민수";
 
-  sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName);
+// 테스트 용으로 만든 것 추후 포스트맨으로 api 통신예정
+//   const userEmail = "kimms5617@naver.com";
+//   const userEmailCheck = "kimms5617@naver.com";
+//   const userPw = "qweasd123!";
+//   const userPwCheck = "qweasd123!";
+//   const userPhone_number = ""; // 문자로 받고 필요하면 변환하자.
+//   const userName = "김민수";
 
-// exports.verification = function sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName) {
+//   sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName);
+
+exports.verification = function sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName) {
     
 
-function sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName) {
+// function sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_number, userName) {
     if(userEmail != userEmailCheck){
         console.log("확인용 이메일이 동일하지 않습니다.");
         return false;
@@ -63,8 +65,8 @@ function sign_up(userEmail, userEmailCheck, userPw, userPwCheck, userPhone_numbe
         console.log("전화번호 다시 입력하세요.");
         
     }
-    console.log(Number(userPhone_number));
+    console.log(Number(userPhone_number)); // 만약 숫자로 필요하다면 이렇게 변환하여 쓸 수 있다는 점. 주의) 01012345678 => 1012345678 로 출력됨 
 
-
+    return true;
    
 }
